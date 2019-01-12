@@ -10,17 +10,18 @@ def verifyFlag(host):
     if len(host) < 2:
         print("Incorrect host format. Please enter host in the format of: \n127.0.0.1:5005")
         exit()
-    if host[1] < 0 or host[1] > 65535:
-        print("Please enter a port number within the valid range (0 to 65535)")
-        exit()
-    if len(host[0].split('.')) != 4:
-        print("Please enter a valid IPv4 address (Ex: 127.0.0.1)")
-        exit()
-    host = host[0].split('.')
-    for x in host:
-        if int(x) < 0 or int(x) > 255:
+    elif:
+        if host[1] < 0 or host[1] > 65535:
+            print("Please enter a port number within the valid range (0 to 65535)")
+            exit()
+        if len(host[0].split('.')) != 4:
             print("Please enter a valid IPv4 address (Ex: 127.0.0.1)")
             exit()
+        host = host[0].split('.')
+        for x in host:
+            if int(x) < 0 or int(x) > 255:
+                print("Please enter a valid IPv4 address (Ex: 127.0.0.1)")
+                exit()
 
 def decodeMessage(data, count):
     ip = [0, 0, 0, 0]
