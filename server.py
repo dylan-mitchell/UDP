@@ -24,6 +24,16 @@ def verifyFlag(host):
 
 def decodeMessage(data, count):
     ip = [0, 0, 0, 0]
+
+    # python struct module to decode the payload
+    # Documentation found here: https://docs.python.org/2/library/struct.html
+    # struct format string explanation ('>IQbbbbh61s')
+    # '>' ensures that the payload is decoded using Big Endian(Most significant byte is placed at the lowest address)
+    # 'I' decodes checksum as a 4 byte int
+    # 'Q' decodes timestamp as a 8 byte int
+    # 'bbbb' decodes each part of the IPv4 address as a 1 byte int for a total of 4 bytes for the IP addresses
+    # 'h' decodes the port as a 2 byte int
+    # '61s' decodes the message sring
     checksum, timestamp, ip[0], ip[1], ip[2], ip[3], port, message = struct.unpack('>IQbbbbh61s', data)
 
     # Check the checksum
@@ -32,7 +42,7 @@ def decodeMessage(data, count):
 
     message = message.decode()
     # Format IP address
-    ip = str(ip[0]) + '.' + str(ip[1]) + '.' + str(ip[2]) + '.' + str(ip[3])
+    ip = str(ip[3]) + '.' + str(ip[2]) + '.' + str(ip[1]) + '.' + str(ip[0])
 
     # Logic for keeping track of message count
     if ip in count:

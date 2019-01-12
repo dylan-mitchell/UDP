@@ -32,7 +32,14 @@ def constructPayload(ip, port, message):
 
     # python struct module to encode the payload
     # Documentation found here: https://docs.python.org/2/library/struct.html
-    payload = struct.pack('>IQbbbbh61s', checksum, unixTime, int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3]), port, message)
+    # struct format string explanation ('>IQbbbbh61s')
+    # '>' ensures that the payload is encoded using Big Endian(Most significant byte is placed at the lowest address)
+    # 'I' encodes checksum as a 4 byte int
+    # 'Q' encodes timestamp as a 8 byte int
+    # 'bbbb' encodes each part of the IPv4 address as a 1 byte int for a total of 4 bytes for the IP addresses
+    # 'h' encodes the port as a 2 byte int
+    # '61s' encodes the message sring
+    payload = struct.pack('>IQbbbbh61s', checksum, unixTime, int(ip[3]), int(ip[2]), int(ip[1]), int(ip[0]), port, message)
 
     return payload
 
