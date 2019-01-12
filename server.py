@@ -10,7 +10,7 @@ def verifyFlag(host):
     if len(host) < 2:
         print("Incorrect host format. Please enter host in the format of: \n127.0.0.1:5005")
         exit()
-    elif:
+    else:
         if host[1] < 0 or host[1] > 65535:
             print("Please enter a port number within the valid range (0 to 65535)")
             exit()
