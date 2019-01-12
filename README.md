@@ -1,6 +1,6 @@
 # UDP
-My implementation of a UDP client/server relationship
-To invoke the program first run server.py and then client.py
+My implementation of a UDP client/server relationship.
+To invoke the program first run server.py and then client.py.
 If no command line flags are used then the default is set to 127.0.0.1:5005
 
 EX: python .\server.py --port 127.0.0.1:5005
