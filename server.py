@@ -31,10 +31,10 @@ def decodeMessage(data, count):
     # '>' ensures that the payload is decoded using Big Endian(Most significant byte is placed at the lowest address)
     # 'I' decodes checksum as a 4 byte int
     # 'Q' decodes timestamp as a 8 byte int
-    # 'bbbb' decodes each part of the IPv4 address as a 1 byte int for a total of 4 bytes for the IP addresses
+    # 'BBBB' decodes each part of the IPv4 address as a 1 byte int for a total of 4 bytes for the IP addresses
     # 'h' decodes the port as a 2 byte int
     # '61s' decodes the message sring
-    checksum, timestamp, ip[0], ip[1], ip[2], ip[3], port, message = struct.unpack('>IQbbbbh61s', data)
+    checksum, timestamp, ip[0], ip[1], ip[2], ip[3], port, message = struct.unpack('>IQBBBBh61s', data)
 
     # Check the checksum
     if checksum != zlib.adler32(message):
