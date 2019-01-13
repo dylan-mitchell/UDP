@@ -6,6 +6,7 @@ To invoke the program run server.py and client.py both pointing to the same port
 If no command line flags are used then the default is set to 127.0.0.1:5005
 
 EX: python .\server.py --port 127.0.0.1:5005
+
     python .\client.py --host 127.0.0.1:5005
 
 ### Client Overview
