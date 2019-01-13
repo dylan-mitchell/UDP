@@ -7,18 +7,27 @@ import time
 
 # Function that checks edge cases for command line flags
 def verifyFlag(host):
+    try:
+        host[1] = int(host[1])
+    except:
+        print("Please enter a valid port.")
+        exit()
+
     if len(host) < 2:
         print("Incorrect host format. Please enter host in the format of: \n127.0.0.1:5005")
         exit()
     else:
-        if host[1] < 0 or host[1] > 65535:
-            print("Please enter a port number within the valid range (0 to 65535)")
+        if host[1] < 1 or host[1] > 65535:
+            print("Please enter a port number within the valid range (1 to 65535)")
             exit()
         if len(host[0].split('.')) != 4:
             print("Please enter a valid IPv4 address (Ex: 127.0.0.1)")
             exit()
         host = host[0].split('.')
         for x in host:
+            if x == '':
+                print("Please enter a valid IPv4 address (Ex: 127.0.0.1)")
+                exit()
             if int(x) < 0 or int(x) > 255:
                 print("Please enter a valid IPv4 address (Ex: 127.0.0.1)")
                 exit()
@@ -33,9 +42,9 @@ def decodeMessage(data, count):
     # 'I' decodes checksum as a 4 byte int
     # 'Q' decodes timestamp as a 8 byte int
     # 'BBBB' decodes each part of the IPv4 address as a 1 byte int for a total of 4 bytes for the IP addresses
-    # 'h' decodes the port as a 2 byte int
+    # 'H' decodes the port as a 2 byte int
     # '61s' decodes the message sring
-    checksum, timestamp, ip[0], ip[1], ip[2], ip[3], port, message = struct.unpack('>IQBBBBh61s', data)
+    checksum, timestamp, ip[0], ip[1], ip[2], ip[3], port, message = struct.unpack('>IQBBBBH61s', data)
 
     # Check the checksum
     if checksum != zlib.adler32(message):
@@ -69,12 +78,13 @@ def main():
     parser = argparse.ArgumentParser(description='Set port and host:port')
     parser.add_argument('--port', dest='host', action='store',
                         default = "127.0.0.1:5005",
-                        help='set the host in format 127.0.0.1:5005 (default: 127.0.0.1:5005)')
+                        help='set the port in format 127.0.0.1:5005 (default: 127.0.0.1:5005)')
 
     args = parser.parse_args()
 
     # Splits 127.0.0.1:5005 to list ['127.0.0.1', '5005']
     host = args.host.split(':')
+    verifyFlag(host)
     host[1] = int(host[1])
 
     verifyFlag(host)

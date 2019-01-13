@@ -1,18 +1,22 @@
 # UDP
 My implementation of a UDP client/server relationship.
-To invoke the program first run server.py and then client.py.
+I tested with a rasberry pi on a local network and I was able to establish a connection and deliver the payload.
+
+To invoke the program run server.py and client.py both pointing to the same port.
 If no command line flags are used then the default is set to 127.0.0.1:5005
 
 EX: python .\server.py --port 127.0.0.1:5005
+    python .\client.py --host 127.0.0.1:5005
+
 ### Client Overview
 The goal of the client is to send a encoded payload to the server every two seconds
 ### Server Overview
 The goal of the server is to listen for messages from the client and decode them
 ### Useful Resources I Used
 * Python socket Module -> https://docs.python.org/3/library/socket.html
-  
+
 * Python argparse Module for command line flags -> https://docs.python.org/2/library/argparse.html#module-argparse
-  
+
 * Python struct Module for encoding payload -> https://docs.python.org/2/library/struct.html
 
 * Python zlib module used to compute the adler32 checksum -> https://docs.python.org/3/library/zlib.html
