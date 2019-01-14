@@ -45,9 +45,12 @@ def decodeMessage(data, count):
     # 'H' decodes the port as a 2 byte int
     # '61s' decodes the message sring
     checksum, timestamp, ip[0], ip[1], ip[2], ip[3], port, message = struct.unpack('>IQBBBBH61s', data)
+    
+    # Pack payload back to recalculate checksum
+    payload = struct.pack(">QBBBBH61s", timestamp, ip[0], ip[1], ip[2], ip[3], port, message)
 
     # Check the checksum
-    if checksum != zlib.adler32(message):
+    if checksum != zlib.adler32(payload):
         print("Checksum does not match. Message possibly corrupt.")
 
     message = message.decode()

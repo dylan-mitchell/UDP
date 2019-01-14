@@ -35,13 +35,17 @@ def verifyFlag(host):
 
 # Function that encodes payload
 def constructPayload(ip, port, message):
-    # Get checksum of message
-    checksum = zlib.adler32(message)
     unixTime = int(time.time())
     # Split IP into 4 distinct parts
     ip = ip.split('.')
+    
+    # Create payload
+    payload = struct.pack('>QBBBBH61s', unixTime, int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3]), port, message)
 
-    # python struct module to encode the payload
+    # Get checksum of message
+    checksum = zlib.adler32(payload)
+
+        # python struct module to encode the payload
     # Documentation found here: https://docs.python.org/2/library/struct.html
     # struct format string explanation ('>IQbbbbh61s')
     # '>' ensures that the payload is encoded using Big Endian(Most significant byte is placed at the lowest address)
@@ -50,7 +54,7 @@ def constructPayload(ip, port, message):
     # 'BBBB' encodes each part of the IPv4 address as a 1 byte int for a total of 4 bytes for the IP addresses
     # 'H' encodes the port as a 2 byte int
     # '61s' encodes the message sring
-    payload = struct.pack('>IQBBBBH61s', checksum, unixTime, int(ip[3]), int(ip[2]), int(ip[1]), int(ip[0]), port, message)
+    payload = struct.pack('>IQBBBBH61s', checksum, unixTime, int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3]), port, message)
 
     if struct.calcsize('>IQBBBBh61s') > 64000:
         print("Payload exceeds the default UDP MTU size (64k)")
